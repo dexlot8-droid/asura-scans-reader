@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Asura Scans Reader",
+  "version": "1.0.0",
+  "description": "Browse and read manhwa directly from Asura Scans",
+  "permissions": ["storage", "activeTab"],
+  "host_permissions": [
+    "https://api.asurascans.com/*",
+    "https://cdn.asurascans.com/*",
+    "https://asurascans.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://asurascans.com/comics/*"],
+      "js": ["content.js"],
+      "css": ["content.css"]
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

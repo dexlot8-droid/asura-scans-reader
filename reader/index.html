@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asura Scans Reader</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #1a1a2e; color: #eee; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; overflow: hidden; }
+    .reader-container { display: flex; flex-direction: column; height: 100vh; }
+    .reader-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: #16213e; }
+    .reader-header h2 { font-size: 16px; color: #e94560; }
+    .reader-header button { background: #0f3460; border: none; color: #eee; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
+    .reader-body { flex: 1; overflow-y: auto; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+    .reader-body img { max-width: 100%; max-height: 85vh; object-fit: contain; margin: 5px auto; }
+    .reader-footer { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: #16213e; }
+    .reader-footer button { background: #0f3460; border: none; color: #eee; padding: 8px 16px; border-radius: 4px; cursor: pointer; }
+    .reader-footer button:disabled { opacity: 0.4; }
+    .loading { text-align: center; padding: 40px; color: #888; }
+  </style>
+</head>
+<body>
+  <div class="reader-container">
+    <div class="reader-header">
+      <button id="closeBtn">&times;</button>
+      <h2 id="readerTitle">Loading...</h2>
+      <button id="chaptersBtn">Chapters</button>
+    </div>
+    <div class="reader-body" id="readerBody">
+      <div class="loading">Loading pages...</div>
+    </div>
+    <div class="reader-footer">
+      <button id="prevBtn">&larr; Prev</button>
+      <span id="pageInfo">Page 1 / ?</span>
+      <button id="nextBtn">Next &rarr;</button>
+    </div>
+  </div>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const slug = params.get('slug');
+    const chapterNum = params.get('ch');
+    let images = [];
+    let currentPage = 0;
+
+    if (!slug || !chapterNum) {
+      document.getElementById('readerBody').innerHTML = '<div class="loading">Invalid parameters</div>';
+    } else {
+      document.getElementById('readerTitle').textContent = slug + ' - Ch ' + chapterNum;
+      loadChapter();
+    }
+
+    async function loadChapter() {
+      try {
+        const res = await fetch('https://api.asurascans.com/api/series/' + slug + '/chapters/' + chapterNum);
+        const data = await res.json();
+        const pages = (data.data || {}).chapter?.pages || [];
+        images = pages.map(p => p.url);
+        renderPages();
+      } catch (err) {
+        document.getElementById('readerBody').innerHTML = '<div class="loading">Error: ' + err.message + '</div>';
+      }
+    }
+
+    function renderPages() {
+      const body = document.getElementById('readerBody');
+      body.innerHTML = images.map((url, i) => '<img src="' + url + '" style="display:' + (i === 0 ? 'block' : 'none') + '">').join('');
+      updateNav();
+    }
+
+    function updateNav() {
+      document.getElementById('pageInfo').textContent = 'Page ' + (currentPage + 1) + ' / ' + images.length;
+      document.getElementById('prevBtn').disabled = currentPage === 0;
+      document.getElementById('nextBtn').disabled = currentPage === images.length - 1;
+    }
+
+    function showPage() {
+      const imgs = document.querySelectorAll('.reader-body img');
+      imgs.forEach((img, i) => { img.style.display = i === currentPage ? 'block' : 'none'; });
+      updateNav();
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', () => { if (currentPage > 0) { currentPage--; showPage(); } });
+    document.getElementById('nextBtn').addEventListener('click', () => { if (currentPage < images.length - 1) { currentPage++; showPage(); } });
+    document.getElementById('closeBtn').addEventListener('click', () => window.close());
+    document.getElementById('chaptersBtn').addEventListener('click', () => {
+      // Go back to popup
+      window.close();
+    });
+
+    document.onkeydown = (e) => {
+      if (e.key === 'ArrowLeft' && currentPage > 0) { currentPage--; showPage(); }
+      if (e.key === 'ArrowRight' && currentPage < images.length - 1) { currentPage++; showPage(); }
+    };
+  </script>
+</body>
+</html>

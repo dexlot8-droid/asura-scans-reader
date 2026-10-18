@@ -1,0 +1,58 @@
+
+#asura-reader-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99999;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #e94560, #c73454);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+#asura-reader-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(233, 69, 96, 0.6);
+}
+#asura-reader-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.92);
+  z-index: 999999;
+  display: flex;
+  flex-direction: column;
+  color: #eee;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+.ar-overlay-content {
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  margin: 10vh auto;
+  background: #1a1a2e;
+  border-radius: 12px;
+  padding: 20px;
+  overflow-y: auto;
+}
+.ar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.ar-header h2 { color: #e94560; font-size: 18px; }
+.ar-header button { background: none; border: none; color: #eee; font-size: 24px; cursor: pointer; }
+.ar-chapter { padding: 10px 12px; margin-bottom: 6px; background: #0f3460; border-radius: 6px; cursor: pointer; display: flex; justify-content: space-between; }
+.ar-chapter:hover { background: #1a4a7a; }
+.ar-ch-num { font-weight: 600; font-size: 13px; }
+.ar-ch-title { color: #888; font-size: 12px; }
+.ar-reader { display: flex; flex-direction: column; height: 100%; }
+.ar-reader-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: #16213e; }
+.ar-reader-header button { background: #0f3460; border: none; color: #eee; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
+.ar-reader-title { font-size: 14px; color: #e94560; }
+.ar-reader-body { flex: 1; overflow-y: auto; display: flex; flex-direction: column; align-items: center; padding: 10px; }
+.ar-reader-body img { max-width: 100%; max-height: 80vh; object-fit: contain; margin: 5px auto; }
+.ar-reader-footer { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: #16213e; }
+.ar-reader-footer button { background: #0f3460; border: none; color: #eee; padding: 8px 16px; border-radius: 4px; cursor: pointer; }
+.ar-reader-footer button:disabled { opacity: 0.4; cursor: default; }
+.ar-loading { text-align: center; padding: 40px; color: #888; }

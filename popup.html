@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asura Scans Reader</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="header">
+    <h1>Asura Scans Reader</h1>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search series...">
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="popular">Popular</button>
+    <button class="tab-btn" data-tab="search">Search Results</button>
+    <button class="tab-btn" data-tab="history">History</button>
+  </div>
+  <div id="popular" class="tab-content active">
+    <div id="seriesList" class="series-list"><p class="loading">Loading...</p></div>
+  </div>
+  <div id="search" class="tab-content">
+    <div id="searchResults" class="series-list"><p class="empty">Search for series</p></div>
+  </div>
+  <div id="history" class="tab-content">
+    <div id="historyList" class="series-list"><p class="empty">No reading history</p></div>
+  </div>
+  <div id="seriesDetail" class="series-detail hidden">
+    <button id="backBtn" class="back-btn">&larr; Back</button>
+    <div class="series-header">
+      <img id="seriesCover" src="" alt="Cover">
+      <div class="series-info">
+        <h2 id="seriesTitle"></h2>
+        <p id="seriesDesc"></p>
+      </div>
+    </div>
+    <h3>Chapters</h3>
+    <div id="chapterList" class="chapter-list"><p class="loading">Loading chapters...</p></div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
